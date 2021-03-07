@@ -1,9 +1,6 @@
 import Quill, { QuillOptionsStatic } from 'quill';
 
-const addClickHandler = (id: string, handler: () => void) => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('click', handler);
-};
+const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 
 const options: QuillOptionsStatic = {
   theme: 'snow',
@@ -12,20 +9,30 @@ const options: QuillOptionsStatic = {
 
 const q = new Quill('#editor', options);
 
-addClickHandler('bold', () => {
+select<HTMLButtonElement>('bold').addEventListener('click', () => {
   const format = q.getFormat();
   if (format.bold) q.format('bold', 0);
   else q.format('bold', 1);
 });
 
-addClickHandler('italic', () => {
+select<HTMLButtonElement>('italic').addEventListener('click', () => {
   const format = q.getFormat();
   if (format.italic) q.format('italic', 0);
   else q.format('italic', 1);
 });
 
-addClickHandler('underline', () => {
+select<HTMLButtonElement>('underline').addEventListener('click', () => {
   const format = q.getFormat();
   if (format.underline) q.format('underline', 0);
   else q.format('underline', 1);
+});
+
+select<HTMLInputElement>('color').addEventListener('change', (e) => {
+  const color = (<HTMLInputElement>e?.target).value;
+  q.format('color', color);
+});
+
+select<HTMLInputElement>('bg-color').addEventListener('change', (e) => {
+  const color = (<HTMLInputElement>e?.target).value;
+  q.format('background', color);
 });
