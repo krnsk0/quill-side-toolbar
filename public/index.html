@@ -10,8 +10,16 @@
   </head>
   <body>
     <div id="container">
-      <div id="editor"></div>
-      <div id="sidebar">settings</div>
+      <div>
+        <div id="editor"></div>
+      </div>
+      <div id="sidebar">
+        <button type="button" id="bold">bold</button>
+        <button type="button" id="italic">italic</button>
+        <button type="button" id="underline">underline</button>
+        <div>text color:<input type="color" id="color"></input></div>
+        <div>bg color:<input type="color" id="bg-color"></input></div>
+      </div>
     </div>
     <script type="module" src="/dist/index.js"></script>
   </body>
