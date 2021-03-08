@@ -12,3 +12,7 @@
   border: 1px solid black;
   width: 200px;
 }
+
+#width-slider {
+  width: 800px;
+}

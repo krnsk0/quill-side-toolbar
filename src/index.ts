@@ -2,12 +2,26 @@ import Quill, { QuillOptionsStatic } from 'quill';
 
 const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 
+// create and configure quill
 const options: QuillOptionsStatic = {
   theme: 'snow',
   modules: { toolbar: false },
 };
 
+const fontSizeStyle = Quill.import('attributors/style/size');
+fontSizeStyle.whitelist = ['0.5em', '1em', '1.5em', '2em'];
+Quill.register(fontSizeStyle, true);
+
 const q = new Quill('#editor', options);
+
+// selectors and behavior
+const quillElement = select<HTMLDivElement>('editor');
+
+select<HTMLInputElement>('width-slider').addEventListener('input', (e) => {
+  const value = (<HTMLInputElement>e?.target).value;
+  quillElement.style.width = `${value}px`;
+  quillElement.style.fontSize = `${+value / 32}px`;
+});
 
 select<HTMLButtonElement>('bold').addEventListener('click', () => {
   const format = q.getFormat();

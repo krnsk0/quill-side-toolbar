@@ -5,12 +5,22 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="/index.css" />
-    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/quill.css" />
     <title>quill sidebar</title>
   </head>
   <body>
     <div id="container">
       <div>
+       <div>
+          <div>width</div>
+          <input
+            id="width-slider"
+            type="range"
+            min="0"
+            max="800"
+            value="400"
+          ></input>
+        </div>
         <div id="editor"></div>
       </div>
       <div id="sidebar">
@@ -20,10 +30,10 @@
         <div>text color:<input type="color" id="color"></input></div>
         <div>bg color:<input type="color" id="bg-color"></input></div>
         <div>font size: <select id="size" >
-          <option value="small">small</option>
-          <option value="" selected>normal</option>
-          <option value="large">large</option>
-          <option value="huge">huge</option>
+          <option value="0.5em">small</option>
+          <option value="1em" selected>normal</option>
+          <option value="1.5em">large</option>
+          <option value="2em">huge</option>
         </select></div>
         <div>font: <select id="font" >
           <option value="" selected>sans serif</option>
