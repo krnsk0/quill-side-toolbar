@@ -36,3 +36,14 @@ select<HTMLInputElement>('bg-color').addEventListener('change', (e) => {
   const color = (<HTMLInputElement>e?.target).value;
   q.format('background', color);
 });
+
+select<HTMLSelectElement>('size').addEventListener('change', (e) => {
+  const size = (<HTMLInputElement>e?.target).value;
+  // have to pass in empty string for 'normal'
+  q.format('size', size === 'normal' ? '' : size);
+});
+
+select<HTMLSelectElement>('font').addEventListener('change', (e) => {
+  const font = (<HTMLInputElement>e?.target).value;
+  q.format('font', font);
+});
