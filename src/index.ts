@@ -39,11 +39,15 @@ select<HTMLInputElement>('bg-color').addEventListener('change', (e) => {
 
 select<HTMLSelectElement>('size').addEventListener('change', (e) => {
   const size = (<HTMLInputElement>e?.target).value;
-  // have to pass in empty string for 'normal'
-  q.format('size', size === 'normal' ? '' : size);
+  q.format('size', size);
 });
 
 select<HTMLSelectElement>('font').addEventListener('change', (e) => {
   const font = (<HTMLInputElement>e?.target).value;
   q.format('font', font);
+});
+
+select<HTMLSelectElement>('align').addEventListener('change', (e) => {
+  const align = (<HTMLInputElement>e?.target).value;
+  q.format('align', align);
 });
