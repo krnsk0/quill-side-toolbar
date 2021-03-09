@@ -9,7 +9,7 @@ const options: QuillOptionsStatic = {
 };
 
 const fontSizeStyle = Quill.import('attributors/style/size');
-fontSizeStyle.whitelist = ['0.5em', '1em', '1.5em', '2em'];
+fontSizeStyle.whitelist = ['0.5em', '1.5em', '2em', '2.5em'];
 Quill.register(fontSizeStyle, true);
 
 const q = new Quill('#editor', options);
@@ -18,9 +18,10 @@ const q = new Quill('#editor', options);
 const quillElement = select<HTMLDivElement>('editor');
 
 select<HTMLInputElement>('width-slider').addEventListener('input', (e) => {
-  const value = (<HTMLInputElement>e?.target).value;
+  const value = +(<HTMLInputElement>e?.target).value;
+  const adjusted = value / 30;
   quillElement.style.width = `${value}px`;
-  quillElement.style.fontSize = `${+value / 32}px`;
+  quillElement.style.fontSize = `${adjusted}px`;
 });
 
 select<HTMLButtonElement>('bold').addEventListener('click', () => {
