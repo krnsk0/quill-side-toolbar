@@ -66,3 +66,14 @@ select<HTMLSelectElement>('align').addEventListener('change', (e) => {
   const align = (<HTMLInputElement>e?.target).value;
   q.format('align', align);
 });
+
+const deltaContainer = select<HTMLDivElement>('delta');
+
+q.on('text-change', () => {
+  const delta = q.getContents();
+  deltaContainer.innerText = '';
+
+  delta.forEach((d) => {
+    deltaContainer.innerHTML += JSON.stringify(d) + '<br/>';
+  });
+});
