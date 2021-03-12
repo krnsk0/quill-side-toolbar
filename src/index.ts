@@ -1,4 +1,5 @@
 import Quill, { QuillOptionsStatic } from 'quill';
+import type { Delta } from './deltaType';
 
 const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 
@@ -70,10 +71,11 @@ select<HTMLSelectElement>('align').addEventListener('change', (e) => {
 const deltaContainer = select<HTMLDivElement>('delta');
 
 q.on('text-change', () => {
-  const delta = q.getContents();
+  const rawDelta = q.getContents();
+
   deltaContainer.innerText = '';
 
-  delta.forEach((d) => {
+  rawDelta.forEach((d) => {
     deltaContainer.innerHTML += JSON.stringify(d) + '<br/>';
   });
 });
