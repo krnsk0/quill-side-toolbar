@@ -1,5 +1,4 @@
 import Quill, { QuillOptionsStatic } from 'quill';
-import type { Delta } from './deltaType';
 
 const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 

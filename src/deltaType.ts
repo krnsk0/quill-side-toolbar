@@ -5,6 +5,7 @@ export type Attributes = {
   background?: string;
   color?: string;
 };
+
 export type Op = { insert: string; attributes?: Attributes };
 
 export type Delta = Op[];
