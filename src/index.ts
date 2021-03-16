@@ -1,4 +1,5 @@
 import Quill, { QuillOptionsStatic } from 'quill';
+import type Delta from 'quill-delta';
 
 const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 
@@ -6,6 +7,16 @@ const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 const options: QuillOptionsStatic = {
   theme: 'snow',
   modules: { toolbar: false },
+  formats: [
+    'background',
+    'bold',
+    'color',
+    'font',
+    'italic',
+    'size',
+    'underline',
+    'align',
+  ],
 };
 
 const fontSizeStyle = Quill.import('attributors/style/size');
@@ -15,6 +26,22 @@ Quill.register(fontSizeStyle, true);
 const q = new Quill('#editor', options);
 q.format('size', '2.5em');
 q.insertText(0, 'line1\nline2\nline3\nline4\nline5', { size: '2.5em' });
+
+/*
+q.setContents(<Delta>(<unknown>[
+  { insert: 'Image Size' },
+  { attributes: { header: 2 }, insert: '\n' },
+  {
+    insert:
+      'Here we use the style attribute to specify the width and height of an image:\n',
+  },
+  {
+    attributes: { alt: 'Girl in a jacket' },
+    insert: { image: 'https://www.w3schools.com/html/img_girl.jpg' },
+  },
+  { insert: '\n' },
+]));
+*/
 
 // selectors and behavior
 const quillElement = select<HTMLDivElement>('editor');
