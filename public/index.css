@@ -12,6 +12,8 @@
 
 #editor {
   position: relative;
+  top: 100px;
+  left: 100px;
   height: 200px;
   width: 400px;
   border: 2px solid blue;
