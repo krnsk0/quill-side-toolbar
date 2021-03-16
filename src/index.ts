@@ -13,15 +13,36 @@ fontSizeStyle.whitelist = ['0.5em', '1.5em', '2em', '2.5em'];
 Quill.register(fontSizeStyle, true);
 
 const q = new Quill('#editor', options);
+q.format('size', '2.5em');
 
 // selectors and behavior
 const quillElement = select<HTMLDivElement>('editor');
 
+let width = 400;
+let height = 200;
+
 select<HTMLInputElement>('width-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
   const adjusted = value / 30;
+  width = value;
   quillElement.style.width = `${value}px`;
   quillElement.style.fontSize = `${adjusted}px`;
+});
+
+select<HTMLInputElement>('height-slider').addEventListener('input', (e) => {
+  const value = +(<HTMLInputElement>e?.target).value;
+  height = value;
+  quillElement.style.height = `${value}px`;
+});
+
+select<HTMLInputElement>('x-slider').addEventListener('input', (e) => {
+  const value = +(<HTMLInputElement>e?.target).value;
+  quillElement.style.left = `${Math.min(value, 800 - width)}px`;
+});
+
+select<HTMLInputElement>('y-slider').addEventListener('input', (e) => {
+  const value = +(<HTMLInputElement>e?.target).value;
+  quillElement.style.top = `${Math.min(value, 400 - height)}px`;
 });
 
 select<HTMLButtonElement>('bold').addEventListener('click', () => {
@@ -65,6 +86,11 @@ select<HTMLSelectElement>('font').addEventListener('change', (e) => {
 select<HTMLSelectElement>('align').addEventListener('change', (e) => {
   const align = (<HTMLInputElement>e?.target).value;
   q.format('align', align);
+});
+
+select<HTMLSelectElement>('vertical-align').addEventListener('change', (e) => {
+  const vAlign = (<HTMLInputElement>e?.target).value;
+  quillElement.style.verticalAlign = vAlign;
 });
 
 const deltaContainer = select<HTMLDivElement>('delta');

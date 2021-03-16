@@ -3,9 +3,19 @@
   flex-direction: space-between;
 }
 
+#editor-outer {
+  height: 400px;
+  width: 800px;
+  border: 2px solid black;
+  overflow: hidden ;
+}
+
 #editor {
+  position: relative;
   height: 200px;
   width: 400px;
+  border: 2px solid blue;
+  overflow: visible;
 }
 
 #sidebar {
@@ -13,6 +23,6 @@
   width: 200px;
 }
 
-#width-slider {
+.slider {
   width: 800px;
 }

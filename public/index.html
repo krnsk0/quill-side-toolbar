@@ -15,13 +15,49 @@
           <div>width</div>
           <input
             id="width-slider"
+            class="slider"
             type="range"
             min="0"
             max="800"
             value="400"
           ></input>
         </div>
-        <div id="editor"></div>
+       <div>
+          <div>height</div>
+          <input
+            id="height-slider"
+            class="slider"
+            type="range"
+            min="0"
+            max="400"
+            value="200"
+          ></input>
+        </div>
+       <div>
+          <div>x</div>
+          <input
+            id="x-slider"
+            class="slider"
+            type="range"
+            min="0"
+            max="800"
+            value="100"
+          ></input>
+        </div>
+       <div>
+          <div>y</div>
+          <input
+            id="y-slider"
+            class="slider"
+            type="range"
+            min="0"
+            max="400"
+            value="100"
+          ></input>
+        </div>
+        <div id="editor-outer">
+          <div id="editor"></div>
+        </div>
       </div>
       <div id="sidebar">
         <button type="button" id="bold">bold</button>
@@ -31,8 +67,8 @@
         <div>bg color:<input type="color" id="bg-color"></input></div>
         <div>font size: <select id="size" >
           <option value="0.5em">small</option>
-          <option value="1.5em" selected>normal</option>
-          <option value="2em">large</option>
+          <option value="1.5em" >normal</option>
+          <option value="2em" selected>large</option>
           <option value="2.5em">huge</option>
         </select></div>
         <div>font: <select id="font" >
@@ -44,6 +80,11 @@
           <option value="" selected>left</option>
           <option value="center">center</option>
           <option value="right">right</option>
+        </select></div>
+        <div>vertical alignment: <select id="vertical-align" >
+          <option value="top" selected>top</option>
+          <option value="center">center</option>
+          <option value="bottom">bottom</option>
         </select></div>
       </div>
     </div>
