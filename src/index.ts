@@ -14,6 +14,7 @@ Quill.register(fontSizeStyle, true);
 
 const q = new Quill('#editor', options);
 q.format('size', '2.5em');
+q.insertText(0, 'line1\nline2\nline3\nline4\nline5', { size: '2.5em' });
 
 // selectors and behavior
 const quillElement = select<HTMLDivElement>('editor');
@@ -90,7 +91,13 @@ select<HTMLSelectElement>('align').addEventListener('change', (e) => {
 
 select<HTMLSelectElement>('vertical-align').addEventListener('change', (e) => {
   const vAlign = (<HTMLInputElement>e?.target).value;
-  quillElement.style.verticalAlign = vAlign;
+  console.log('vAlign: ', vAlign);
+
+  const editorChild = <HTMLDivElement>(
+    select<HTMLSelectElement>('editor').firstChild
+  );
+
+  editorChild.style.justifyContent = vAlign;
 });
 
 const deltaContainer = select<HTMLDivElement>('delta');
