@@ -45,6 +45,7 @@ q.setContents(<Delta>(<unknown>[
 
 // selectors and behavior
 const quillElement = select<HTMLDivElement>('editor');
+const htmlDeltaElement = select<HTMLDivElement>('html-editor');
 
 let width = 400;
 let height = 200;
@@ -55,22 +56,27 @@ select<HTMLInputElement>('width-slider').addEventListener('input', (e) => {
   width = value;
   quillElement.style.width = `${value}px`;
   quillElement.style.fontSize = `${adjusted}px`;
+  htmlDeltaElement.style.width = `${value}px`;
+  htmlDeltaElement.style.fontSize = `${adjusted}px`;
 });
 
 select<HTMLInputElement>('height-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
   height = value;
+  htmlDeltaElement.style.height = `${value}px`;
   quillElement.style.height = `${value}px`;
 });
 
 select<HTMLInputElement>('x-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
   quillElement.style.left = `${Math.min(value, 800 - width)}px`;
+  htmlDeltaElement.style.left = `${Math.min(value, 800 - width)}px`;
 });
 
 select<HTMLInputElement>('y-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
   quillElement.style.top = `${Math.min(value, 400 - height)}px`;
+  htmlDeltaElement.style.top = `${Math.min(value, 400 - height)}px`;
 });
 
 select<HTMLButtonElement>('bold').addEventListener('click', () => {
@@ -120,11 +126,15 @@ select<HTMLSelectElement>('vertical-align').addEventListener('change', (e) => {
   const vAlign = (<HTMLInputElement>e?.target).value;
   console.log('vAlign: ', vAlign);
 
-  const editorChild = <HTMLDivElement>(
-    select<HTMLSelectElement>('editor').firstChild
-  );
+  const editorChild = <HTMLDivElement>quillElement.firstChild;
+  const htmlChild = <HTMLDivElement>htmlDeltaElement.firstChild;
 
-  editorChild.style.justifyContent = vAlign;
+  if (editorChild) {
+    editorChild.style.justifyContent = vAlign;
+  }
+  if (htmlChild) {
+    htmlChild.style.justifyContent = vAlign;
+  }
 });
 
 const deltaContainer = select<HTMLDivElement>('delta');
