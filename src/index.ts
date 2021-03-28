@@ -1,5 +1,5 @@
 import Quill, { QuillOptionsStatic } from 'quill';
-import type Delta from 'quill-delta';
+import { QuillDeltaToHtmlConverter as Q2H } from 'quill-delta-to-html';
 
 const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 
@@ -147,4 +147,30 @@ q.on('text-change', () => {
   rawDelta.forEach((d) => {
     deltaContainer.innerHTML += JSON.stringify(d) + '<br/>';
   });
+
+  updateHtml(rawDelta.ops);
 });
+
+const updateHtml = (ops: any[]) => {
+  ops.forEach((op) => {
+    console.log('op: ', op);
+    if (op.insert === '\n') {
+      return;
+    }
+    const pTag = document.createElement('p');
+    const spanTag = document.createElement('span');
+    spanTag.innerText = op.insert;
+    pTag.appendChild(spanTag);
+
+    if (op.attributes) {
+      if (op.attributes.size) {
+        const value = op.attributes.size;
+        spanTag.style.fontSize = value;
+      }
+    }
+
+    htmlDeltaElement.appendChild(pTag);
+  });
+};
+
+updateHtml(q.getContents().ops);
