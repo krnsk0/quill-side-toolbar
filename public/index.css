@@ -3,16 +3,14 @@
   flex-direction: space-between;
 }
 
-#editor-outer,
-#html-editor-outer {
+#editor-outer {
   height: 400px;
   width: 800px;
   border: 2px solid black;
   overflow: hidden;
 }
 
-#editor,
-#html-editor {
+#editor-position {
   position: relative;
   top: 100px;
   left: 100px;
@@ -20,6 +18,17 @@
   width: 400px;
   border: 2px solid blue;
   overflow-x: visible;
+}
+
+#editor-overlay {
+  z-index: 5;
+  border: 2px solid red;
+  background: rgb(50, 0, 0, 0.2);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  height: 100%;
+  width: 100%;
 }
 
 #editor > div {

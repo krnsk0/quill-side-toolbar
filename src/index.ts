@@ -6,7 +6,28 @@ const select = <T>(id: string): T => <T>(<unknown>document.getElementById(id));
 // create and configure quill
 const options: QuillOptionsStatic = {
   theme: 'snow',
-  modules: { toolbar: false },
+  modules: {
+    toolbar: false,
+    keyboard: {
+      bindings: {
+        tab: {
+          key: 9,
+          handler: function () {
+            // do nothing
+          },
+        },
+        'remove tab': {
+          key: 9,
+          shiftKey: true,
+          collapsed: true,
+          prefix: /\t$/,
+          handler: function () {
+            // do nothing
+          },
+        },
+      },
+    },
+  },
   formats: [
     'background',
     'bold',
@@ -45,7 +66,8 @@ q.setContents(<Delta>(<unknown>[
 
 // selectors and behavior
 const quillElement = select<HTMLDivElement>('editor');
-const htmlDeltaElement = select<HTMLDivElement>('html-editor');
+const quillOverlay = select<HTMLDivElement>('editor-overlay');
+const editorPosition = select<HTMLDivElement>('editor-position');
 
 let width = 400;
 let height = 200;
@@ -54,29 +76,24 @@ select<HTMLInputElement>('width-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
   const adjusted = value / 30;
   width = value;
-  quillElement.style.width = `${value}px`;
+  editorPosition.style.width = `${value}px`;
   quillElement.style.fontSize = `${adjusted}px`;
-  htmlDeltaElement.style.width = `${value}px`;
-  htmlDeltaElement.style.fontSize = `${adjusted}px`;
 });
 
 select<HTMLInputElement>('height-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
   height = value;
-  htmlDeltaElement.style.height = `${value}px`;
-  quillElement.style.height = `${value}px`;
+  editorPosition.style.height = `${value}px`;
 });
 
 select<HTMLInputElement>('x-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
-  quillElement.style.left = `${Math.min(value, 800 - width)}px`;
-  htmlDeltaElement.style.left = `${Math.min(value, 800 - width)}px`;
+  editorPosition.style.left = `${Math.min(value, 800 - width)}px`;
 });
 
 select<HTMLInputElement>('y-slider').addEventListener('input', (e) => {
   const value = +(<HTMLInputElement>e?.target).value;
-  quillElement.style.top = `${Math.min(value, 400 - height)}px`;
-  htmlDeltaElement.style.top = `${Math.min(value, 400 - height)}px`;
+  editorPosition.style.top = `${Math.min(value, 400 - height)}px`;
 });
 
 select<HTMLButtonElement>('bold').addEventListener('click', () => {
@@ -127,13 +144,9 @@ select<HTMLSelectElement>('vertical-align').addEventListener('change', (e) => {
   console.log('vAlign: ', vAlign);
 
   const editorChild = <HTMLDivElement>quillElement.firstChild;
-  const htmlChild = <HTMLDivElement>htmlDeltaElement.firstChild;
 
   if (editorChild) {
     editorChild.style.justifyContent = vAlign;
-  }
-  if (htmlChild) {
-    htmlChild.style.justifyContent = vAlign;
   }
 });
 
@@ -147,30 +160,26 @@ q.on('text-change', () => {
   rawDelta.forEach((d) => {
     deltaContainer.innerHTML += JSON.stringify(d) + '<br/>';
   });
-
-  updateHtml(rawDelta.ops);
 });
 
-const updateHtml = (ops: any[]) => {
-  ops.forEach((op) => {
-    console.log('op: ', op);
-    if (op.insert === '\n') {
-      return;
-    }
-    const pTag = document.createElement('p');
-    const spanTag = document.createElement('span');
-    spanTag.innerText = op.insert;
-    pTag.appendChild(spanTag);
+quillOverlay.addEventListener('click', () => {
+  console.log('overlay clicked');
+  quillOverlay.style.display = 'none';
+  q.focus();
+});
 
-    if (op.attributes) {
-      if (op.attributes.size) {
-        const value = op.attributes.size;
-        spanTag.style.fontSize = value;
-      }
-    }
+window.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement;
+  console.log('target', target);
 
-    htmlDeltaElement.appendChild(pTag);
-  });
-};
+  if (
+    target.id === 'editor' ||
+    target.id === 'editor-overlay' ||
+    quillElement.contains(target)
+  ) {
+    return;
+  }
+  quillOverlay.style.display = 'inherit';
+});
 
-updateHtml(q.getContents().ops);
+q.blur();
